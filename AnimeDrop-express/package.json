@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.1",
+    "jsonwebtoken": "^9.0.3",
+    "lts": "^2.0.0",
+    "mongoose": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  },
+  "name": "animedrop-express",
+  "version": "1.0.0",
+  "description": "Anime Drop",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js"
+  },
+  "type": "module",
+  "keywords": [
+    "anime",
+    "tracker"
+  ],
+  "author": "Kelompok 3 - SI52",
+  "license": "ISC"
+}
