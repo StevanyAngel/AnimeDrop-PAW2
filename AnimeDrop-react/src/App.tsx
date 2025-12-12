@@ -1,35 +1,85 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import Home from "./pages/Home";
+import MyList from "./pages/anime/MyList";
+import AddAnime from "./pages/anime/AddAnime";
+import EditAnime from "./pages/anime/EditAnime";
+import Discovery from "./pages/anime/Discovery";
+import AnimeDetail from "./pages/anime/AnimeDetail";
+import Users from "./pages/users/Users";
+import UserProfile from "./pages/users/UserProfile";
+import Notifications from "./pages/notifications/Notifications";
+
+interface User {
+  id: string;
+  username: string;
+  email: string;
+  avatar: string;
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userData = localStorage.getItem("user");
+
+    if (token && userData) {
+      try {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setUser(JSON.parse(userData));
+      } catch (error) {
+        console.error("Failed to parse user data:", error);
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+      }
+    }
+    setLoading(false);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+  };
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {user && <Navbar user={user} onLogout={handleLogout} />}
+
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/login" element={!user ? <Login setUser={setUser} /> : <Navigate to="/home" />} />
+        <Route path="/register" element={!user ? <Register setUser={setUser} /> : <Navigate to="/home" />} />
+
+        {/* Protected Routes */}
+        <Route path="/" element={user ? <Navigate to="/home" /> : <Navigate to="/login" />} />
+        <Route path="/home" element={user ? <Home /> : <Navigate to="/login" />} />
+        <Route path="/my-list" element={user ? <MyList /> : <Navigate to="/login" />} />
+        <Route path="/add-anime" element={user ? <AddAnime /> : <Navigate to="/login" />} />
+        <Route path="/edit-anime/:id" element={user ? <EditAnime /> : <Navigate to="/login" />} />
+        <Route path="/discovery" element={user ? <Discovery /> : <Navigate to="/login" />} />
+        <Route path="/anime/:id" element={user ? <AnimeDetail user={user} /> : <Navigate to="/login" />} />
+        <Route path="/users" element={user ? <Users /> : <Navigate to="/login" />} />
+        <Route path="/users/:userId" element={user ? <UserProfile currentUser={user} /> : <Navigate to="/login" />} />
+        <Route path="/notifications" element={user ? <Notifications /> : <Navigate to="/login" />} />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
