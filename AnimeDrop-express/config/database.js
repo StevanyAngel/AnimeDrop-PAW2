@@ -4,7 +4,7 @@ const database = async () => {
   try {
     console.log("⏳ Koneksi ke database...");
 
-    const response = await mongoose.connect("mongodb://127.0.0.1:27017/animeDrop?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.8");
+    const response = await mongoose.connect("mongodb://127.0.0.1:27017/AnimeDrop?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.8");
 
     console.log(`✅ Koneksi database berhasil : ${response.connection.host}`);
   } catch (error) {
