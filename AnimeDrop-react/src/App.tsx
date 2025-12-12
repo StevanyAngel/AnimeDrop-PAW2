@@ -1,17 +1,17 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Navbar from "./components/Navbar";
+import Navbar from "./component/Navbar.tsx";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import Home from "./pages/Home";
-import MyList from "./pages/anime/MyList";
-import AddAnime from "./pages/anime/AddAnime";
-import EditAnime from "./pages/anime/EditAnime";
-import Discovery from "./pages/anime/Discovery";
-import AnimeDetail from "./pages/anime/AnimeDetail";
+import Home from "./pages/Home.tsx";
+import MyList from "./pages/anime/MyList.tsx";
+import AddAnime from "./pages/anime/AddAnime.tsx";
+import EditAnime from "./pages/anime/EditAnime.tsx";
+import Discovery from "./pages/anime/Discovery.tsx";
+import AnimeDetail from "./pages/anime/AnimeDetail.tsx";
 import Users from "./pages/users/Users";
-import UserProfile from "./pages/users/UserProfile";
-import Notifications from "./pages/notifications/Notifications";
+import UserProfile from "./pages/users/UserProfile.tsx";
+import Notifications from "./pages/notifications/Notifications.tsx";
 
 interface User {
   id: string;
